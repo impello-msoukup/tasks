@@ -1,2 +1,70 @@
+<h1>Tasks</h1>
+
+<p>
+    <button (click)="getTasks()">Refresh task list</button>
+</p>
+
+<form [formGroup]="tForm" (submit)="postTask()">
+    Add new task: <input type="text" formControlName="tName">, with priority (0 .. 100): 
+    <input size="4" maxlength="3" formControlName="tPriority">, 
+    <select formControlName="tStatus">
+        <option value=0 [selected]="true">Not Started</option>
+        <option value=1>In Progress</option>
+        <option value=2>Completed</option>
+    </select> >> 
+    <button type="submit">Submit</button>
+
+    <div *ngIf="invalidForm">
+        Please verify input form.
+    </div>
+    <div *ngIf="tForm.controls['tName'].invalid && (tForm.controls['tName'].dirty || tForm.controls['tName'].touched)">
+        <div *ngIf="tForm.controls['tName'].invalid">
+            Please enter task name.
+        </div>
+    </div>
+    <div *ngIf="invalidPriority">
+        Please enter valid priority value.
+    </div>
+    <div *ngIf="duplicateName">
+        Please enter unique task name.
+    </div>
+</form>
+
+<hr>
+
+<div style="display: table;">
+    <div *ngFor="let task of tasks" style="display: table-row;">
+        <div style="display: table-cell; padding: 10px;">
+            <b>{{ task.name }}</b>
+        </div>
+        <div style="display: table-cell; padding: 10px;">
+            {{ task.priority }}
+        </div>
+        <div *ngIf="task.status != 0" style="display: table-cell; padding: 10px;">
+            <a href="#" (click)="putTask(task.identifier, task.name, task.priority, 0)">Not Started</a>
+        </div>
+        <div *ngIf="task.status == 0" style="display: table-cell; padding: 10px;">
+            <b>Not Started</b>
+        </div>
+        <div *ngIf="task.status != 1" style="display: table-cell; padding: 10px;">
+            <a href="#" (click)="putTask(task.identifier, task.name, task.priority, 1)">In Progress</a>
+        </div>
+        <div *ngIf="task.status == 1" style="display: table-cell; padding: 10px;">
+            <b>In Progress</b>
+        </div>
+        <div *ngIf="task.status != 2" style="display: table-cell; padding: 10px;">
+            <a href="#" (click)="putTask(task.identifier, task.name, task.priority, 2)">Completed</a>
+        </div>
+        <div *ngIf="task.status == 2" style="display: table-cell; padding: 10px;">
+            <b>Completed</b>
+        </div>
+        <div *ngIf="task.status != 2" style="display: table-cell; padding: 10px;">
+            &nbsp;
+        </div>
+        <div *ngIf="task.status == 2" style="display: table-cell; padding: 10px;">
+            <a href="#" (click)="removeTask(task.identifier)">Remove</a>
+        </div>
+    </div>    
+</div>
 
 <router-outlet></router-outlet>
