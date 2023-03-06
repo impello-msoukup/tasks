@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     {
         options.AddDefaultPolicy(
             builder => {
-                builder.WithOrigins("https://localhost:3200")
+                builder.WithOrigins("https://localhost:4200", "http://localhost:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             }
@@ -42,6 +42,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseSession();
+
+app.UseCors();
 
 app.MapControllers();
 
