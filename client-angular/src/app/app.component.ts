@@ -96,6 +96,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.f['tPriority'].patchValue(0); // Set default value of priority
+    this.f['tStatus'].patchValue(0); // Set default value of status
     this.getTasks();
   }
 }
