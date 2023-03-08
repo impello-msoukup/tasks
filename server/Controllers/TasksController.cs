@@ -101,12 +101,15 @@ public class TasksController : ControllerBase
 
         // Update original task
         Task? originalTask = tasks?.Find(x => x.Identifier == identifier);
-        originalTask.Name = task.Name;
-        originalTask.Priority = task.Priority;
-        originalTask.Status = task.Status;
+        if (originalTask != null) {
+            // Update original task
+            originalTask.Name = task.Name;
+            originalTask.Priority = task.Priority;
+            originalTask.Status = task.Status;
 
-        // Save task list into the cache
-        _dc.SetString("Tasks", JsonSerializer.Serialize(tasks));
+            // Save task list into the cache
+            _dc.SetString("Tasks", JsonSerializer.Serialize(tasks));
+        }
 
         return Ok();
     }
